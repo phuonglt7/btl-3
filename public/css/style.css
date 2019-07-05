@@ -1,0 +1,124 @@
+*{
+    margin: auto;
+    padding: 0px;
+}
+a{ text-decoration: none;}
+ul li{ list-style: none;}
+.clearfix:after {
+    content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
+}
+.clearfix {
+    clear: both;
+    display: block;
+}
+body {
+    font-family: arial;
+    font-size: 16px;
+    background-color: #F2F2F2;
+    text-align: center;
+    color: #000;
+}
+
+.wrapper_container{
+    width: 80%;
+    margin: 20px auto;
+    padding: 20px auto;
+    text-align: center;
+}
+
+label.error{
+    color: red;
+    font-size: 14px;
+    display: block;
+}
+
+/*this is style header*/
+#head{
+    background: #000;
+
+}
+#main_menu {
+    margin-left: 900px;
+}
+#main_menu>li{ 
+    float: left;
+    border-right: 1px solid #E8E8E8;
+}
+#main_menu>li:last-child{ border-right: none;}
+#main_menu li{ position: relative;}
+#main_menu>li a {
+    display: block;
+    text-transform: none;
+    padding: 10px;
+    font-weight: bold;
+    color: #fff;
+}
+#main_menu>li>a{ text-transform: uppercase;}
+#main_menu>li>a{ display: block; padding: 20px;}
+
+#main_menu li .sub_menu {
+    position: absolute;
+    display: none;
+    width: 200px;
+    background: green;
+    color: #000;
+    top: 0px;
+    left: 100%;
+}
+#main_menu li:hover>.sub_menu { display: block;}
+#main_menu>li>.sub_menu {
+    top: 55px;
+    position: absolute;
+    left: 0px;
+}
+
+#main_menu li:hover{
+    background: #99FF33;
+    color: #000;
+}
+
+/*button*/
+
+.btn {
+    border-radius: 5px;
+    height: 35px;
+    display: block;
+    margin: 15px auto;
+    font-size: 18px;
+    text-align: center;
+}
+button.btn-submit {
+    margin: auto ;
+    background-color: #00CC33;
+    color: #fff;
+    padding: 5px ;
+    border-radius: 5px;
+    font-size: 18px;
+}
+
+.btn-submit:hover {
+    background-color: #ACFA58;
+    color: #000;
+}
+
+button.btn-menu {
+    margin: 10px;
+    background-color: #00CC33;
+    color: #fff;
+    padding: 25px ;
+    border-radius: 5px;
+    font-size: 18px;
+}
+/*this is style main_content*/
+#main_content { min-height: 450px;}
+#main_content .info_page p{ text-align: center; text-transform: uppercase; }
+#main_content .info_page p:first-child{ font-size: 35px;
+    color: #fff;
+    margin-top: 40px;
+    margin-bottom: 7px;}
+    #main_content .info_page p:last-child{ color: #E48585;}
