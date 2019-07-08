@@ -4,7 +4,10 @@
 <div class="wrapper_container">
     <div class="info_page">
      <a href="{{ route('history.create') }}">
-        <button type="button" data-toggle="modal" data-target="#add-item" class="btn btn-primary add-item">  <span class="glyphicon glyphicon-edit"></span> Thêm nhập xuất </button>
+        <button type="button" data-toggle="modal" data-target="#add-item" class="btn btn-primary add-item">  <span class="glyphicon glyphicon-edit"></span> Danh sach nhập xuất </button>
+         <div class="export">
+        <a href ="{{ route('export-history', ['id' => $id]) }}"><button  class="btn-info export" id="export-button">Export file</button></a>
+    </div>
     </a>
     <h3> Danh sách sản phẩm</h3>
     @include('layouts.announce')

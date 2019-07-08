@@ -60,8 +60,9 @@ class HomeController extends Controller
         foreach ($request->reset as $id) {
             $result = $this->userRepository->find($id);
             if ($result) {
-                $pass = ['password' => str_random(5)];
-                $result->update($pass);
+                $pass = str_random(5);
+                $pass1 = ['password' => bcrypt($pass)];
+                $result->update($pass1);
                 \Mail::to($result->email)->send(new PassEmail($pass));
             }
         }

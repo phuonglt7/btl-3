@@ -40,8 +40,8 @@ class HistoryStoreController extends Controller
 
     public function show($id)
     {
-         $history = $this->historyRepository->get('store_id', $id);
-         return view('history.show', compact('history'));
+        $history = $this->historyRepository->get('store_id', $id);
+        return view('history.show', compact('history', 'id'));
     }
 
     public function create()
@@ -52,96 +52,85 @@ class HistoryStoreController extends Controller
     public function nhapProduct($type, $amount, $store, $product)
     {
         foreach ($amount as $keyAmount => $valueAmount) {
-            foreach ($store as $keyStore => $valueStore) {
-                foreach ($product as $keyProduct => $valueProduct) {
-                    if ($keyAmount == $keyStore && $keyStore == $keyProduct) {
-                        $data_his = [
-                            'amount' => $valueAmount,
-                            'store_id' => $valueStore,
-                            'product_id' => $valueProduct,
-                            'type' => $type,
-                        ];
-                        $data_history = $this->historyRepository->create($data_his);
-                        $data_product_store = $this->product_store->find(
-                            [
-                            'product_id' => $valueProduct,
-                            'store_id' => $valueStore
-                            ]
-                        );
-                        if (!$data_product_store->isEmpty()) {
-                            foreach ($data_product_store as $item) {
-                                $amount_old = $item->amount;
-                                $id = $item->id;
-                            }
-                            $sum_amount = $amount_old + $valueAmount;
-
-                            $data = [
-                                'amount' => $sum_amount,
-                                'store_id' => $valueStore,
-                                'product_id' => $valueProduct,
-                            ];
-                            $update_product_store = $this->product_store->find($id);
-                            $data_pro_sto = $update_product_store->update($data);
-                        } else {
-                            $data = [
-                                'amount' => $valueAmount,
-                                'store_id' => $valueStore,
-                                'product_id' => $valueProduct
-                            ];
-                            $data_pro_sto = $this->product_store->create($data);
-                        }
-                        return response()->json(['subscribe success']);
-                    }
+            $data_his = [
+                'amount' => $valueAmount,
+                'store_id' => $store,
+                'product_id' => $product[$keyAmount],
+                'type' => $type,
+            ];
+            $data_history = $this->historyRepository->create($data_his);
+            $data_product_store = $this->product_store->find(
+                [
+                    'product_id' => $product[$keyAmount],
+                    'store_id' => $store
+                ]
+            );
+            if (!$data_product_store->isEmpty()) {
+                foreach ($data_product_store as $item) {
+                    $amount_old = $item->amount;
+                    $id = $item->id;
                 }
+                $sum_amount = $amount_old + $valueAmount;
+
+                $data = [
+                    'amount' => $sum_amount,
+                    'store_id' => $store,
+                    'product_id' => $product[$keyAmount],
+                ];
+                $update_product_store = $this->product_store->find($id);
+                $data_pro_sto = $update_product_store->update($data);
+            } else {
+                $data = [
+                    'amount' => $valueAmount,
+                    'store_id' => $store,
+                    'product_id' => $product[$keyAmount]
+                ];
+                $data_pro_sto = $this->product_store->create($data);
             }
+            return response()->json(['subscribe success']);
         }
     }
 
     public function xuatProduct($type, $amount, $store, $product)
     {
         foreach ($amount as $keyAmount => $valueAmount) {
-            foreach ($store as $keyStore => $valueStore) {
-                foreach ($product as $keyProduct => $valueProduct) {
-                    if ($keyAmount == $keyStore && $keyStore == $keyProduct) {
-                        $data_his = [
-                            'amount' => $valueAmount,
-                            'store_id' => $valueStore,
-                            'product_id' => $valueProduct,
-                            'type' => $type,
-                            ];
-                        $data_product_store = $this->product_store->find(
-                            [
-                                'product_id' => $valueProduct,
-                                'store_id' => $valueStore
-                            ]
-                        );
-                        if ($data_product_store->isEmpty()) {
-                            return redirect()->back()->with(
-                                'error',
-                                "Không có $valueProduct trong kho $valueStore!"
-                            );
-                        } else {
-                            foreach ($data_product_store as $item) {
-                                $amount_old = $item->amount;
-                                $id = $item->id;
-                            }
-                            if ($amount_old >= $valueAmount) {
-                                $data_history = $this->historyRepository->create($data_his);
-                                $sum_amount = $amount_old - $valueAmount;
-                                $data = [
-                                    'amount' => $sum_amount,
-                                    'store_id' => $valueStore,
-                                    'product_id' => $valueProduct
-                                ];
-                                $update_product_store = $this->product_store->find($id);
-                                $data_pro_sto = $update_product_store->update($data);
-                                return $errors = "thanh cong";
-                            } else {
-                                return $errors =  "Sản phẩm $valueProduct trong $valueStore lớn hơn số lượng hiện có !";
-                            }
-                        }
-                    }
+            $data_his = [
+                'amount' => $valueAmount,
+                'store_id' => $store,
+                'product_id' => $product[$keyAmount],
+                'type' => $type,
+            ];
+            $data_product_store = $this->product_store->find(
+                [
+                    'product_id' => $product[$keyAmount],
+                    'store_id' => $store
+                ]
+            );
+            if ($data_product_store->isEmpty()) {
+                return redirect()->back()->with(
+                    'error',
+                    "Không có $product[$keyAmount] trong kho $valueStore!"
+                );
+            } else {
+                foreach ($data_product_store as $item) {
+                    $amount_old = $item->amount;
+                    $id = $item->id;
                 }
+                if ($amount_old >= $valueAmount) {
+                    $data_history = $this->historyRepository->create($data_his);
+                    $sum_amount = $amount_old - $valueAmount;
+                    $data = [
+                        'amount' => $sum_amount,
+                        'store_id' =>$store,
+                        'product_id' => $product[$keyAmount]
+                    ];
+                    $update_product_store = $this->product_store->find($id);
+                    $data_pro_sto = $update_product_store->update($data);
+                    $errors = "thanh cong";
+                } else {
+                    $errors =  "Sản phẩm $valueProduct trong $valueStore lớn hơn số lượng hiện có !";
+                }
+                return $errors;
             }
         }
     }

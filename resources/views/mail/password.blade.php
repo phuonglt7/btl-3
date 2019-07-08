@@ -8,6 +8,6 @@
 </head>
 <body>
    Mật khẩu tài khoản của bạn là :<br/>
-    Password: {{ $pass['password'] }}
+    Password: {{ $pass }}
 </body>
 </html>

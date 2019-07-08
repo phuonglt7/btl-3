@@ -8,7 +8,7 @@
         </a>
         @if ($users)
             <div class="export">
-                <a href ="{{ route('exportHistory') }}"><button  class="btn-info export" id="export-button">Export file</button></a>
+                <a href ="{{ route('export-user') }}"><button  class="btn-info export" id="export-button">Export file</button></a>
             </div>
         @endif
 

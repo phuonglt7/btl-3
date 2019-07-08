@@ -19,30 +19,17 @@
                             <option value="2">Xuất</option>
                         </select>
                     </div>
-                    <div id="dynamic">
-                        <div class="row-1">
-                            <label for="amount"> amount: </label>
-                            <input type = "number" name = "amount[]" size="20" placeholder="amount">
-                        </div>
-                        <div class="row-1">
+                     <div class="row-1">
                             <label for="store"> Store</label>
-                            <select name="store_id[]">
+                            <select name="store_id">
                                 <option value=""> -- Lựa chọn -- </option>
                                 @foreach ($storeList as $store)
                                 <option value="{{ $store->id }}"> {{ $store->store_name }} </option>
                                 @endforeach
                             </select>
                         </div>
-                        <div class="row-1">
-                            <label for="product" class="text-label">Product:</label>
-                            <select name="product_id[]">
-                                <option value="" selected> -- Lua chon --</option>
-                                @foreach ($productList as $product)
-                                <option value="{{ $product->id }}"> {{ $product->product_name }}</option>
-                                @endforeach
-                            </select>
-                            <button type="button" class="add" id="add">Them</button>
-                        </div>
+                    <div id="dynamic">
+                        <button type="button" class="add" id="add">Them</button>
                     </div>
 
                     <div class="row-2">
@@ -59,7 +46,7 @@
 
     var i = 1;
     $('#add').click(function(event) {
-        $('#dynamic').append("<div id='row-add-"+i+"'> <div class='row-1'><label for='amount'> amount:</label> <input type = 'number' name = 'amount[]' size='30' placeholder='amount'/> </div><div class='row-1'> <label for='store'> Store</label> <select name='store_id[]'> <option value=''> -- Lựa chọn -- </option>@foreach ($storeList as $store)<option value=' {{ $store->id }}'> {{ $store->store_name }} </option> @endforeach </select></div><div class='row-1'><label for='product' class='text-label' >Product:</label><select name='product_id[]'> <option value='' selected> -- Lua chon --</option>@foreach ($productList as $product)<option value='{{ $product->id }}'> {{ $product->product_name }}</option> @endforeach</select>  <button name='btn-delete' id='"+i+"' class='btn-delete'>Xoa</button> </div> </div>");
+        $('#dynamic').append("<div id='row-add-"+i+"'><div id='dynamic'><div class='row-1'><label for='amount'> amount: </label><input type = 'number' name = 'amount[]' size='20' placeholder='amount'></div><div class='row-1'><label for='product' class='text-label'>Product:</label><select name='product_id[]'><option value='' selected> -- Lua chon --</option> @foreach ($productList as $product) <option value='{{ $product->id }}'> {{ $product->product_name }}</option> @endforeach </select> <button name='btn-delete' id='"+i+"' class='btn-danger'>Xoa</button> </div> </div> ");
   });
     $(document).on('click', '.btn-delete', function(){
         var button_id = $(this).attr('id');
